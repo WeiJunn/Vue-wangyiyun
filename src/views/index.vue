@@ -41,6 +41,7 @@ export default {
   width: 200px;
 }
 .box .content .right {
+  height: 700px;
   padding: 20px;
   border-right: 1px solid #e1e1e1;
   flex: 1;

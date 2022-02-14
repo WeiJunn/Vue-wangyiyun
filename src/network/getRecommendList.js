@@ -5,7 +5,7 @@ export function getRecommendList() {
   return request({
     url: '/personalized',
     params: {
-      limit: 10
+      limit: 20
     }
   })
 }

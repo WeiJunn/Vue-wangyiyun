@@ -2,7 +2,12 @@
   <div id="box">
     <h3>推荐歌单</h3>
     <div class="items">
-      <div class="item" v-for="(item, index) in RecommendList" :key="index">
+      <div
+        class="item"
+        v-for="(item, index) in RecommendList"
+        :key="index"
+        @click="toPlayListDetail(item.id)"
+      >
         <div class="img-wrap">
           <div class="item_titel">
             <p>{{ item.copywriter }}</p>
@@ -43,7 +48,11 @@ export default {
     },
   },
   created() {},
-  methods: {},
+  methods: {
+    toPlayListDetail(id) {
+      this.$router.push(`/playListDetail?q=${id}`);
+    },
+  },
   // 计算属性
   computed: {},
 };

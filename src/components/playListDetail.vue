@@ -27,8 +27,8 @@
         <p>简介：{{ PlayDetail.description }}</p>
       </div>
     </div>
-    <el-tabs v-model="activeIndex">
-      <el-tab-pane label="歌曲列表" name="first">
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="歌曲列表" name="1">
         <table class="el-table playlit-table">
           <thead>
             <th></th>
@@ -58,7 +58,7 @@
           </tbody>
         </table>
       </el-tab-pane>
-      <el-tab-pane label="评论" name="second">配置管理</el-tab-pane>
+      <el-tab-pane label="评论" name="2"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -68,8 +68,9 @@ import { getPlayDetail } from "network/playlists.js";
 export default {
   data() {
     return {
+      activeName: "1",
       PlayDetail: {},
-      activeIndex: "1",
+      id: "",
     };
   },
   created() {
@@ -77,7 +78,8 @@ export default {
   },
   methods: {
     getPlayDetail() {
-      getPlayDetail().then((res) => {
+      this.id = this.$route.query.q;
+      getPlayDetail(this.id).then((res) => {
         console.log(res);
         this.PlayDetail = res.data.playlist;
       });
@@ -127,9 +129,6 @@ export default {
 }
 .playList-box .top-warp .in-warp .author-wrap img {
   border-radius: 50%;
-}
-.el-tabs {
-  width: 100%;
 }
 .el-tabs .img-wrap img {
   width: 70px;

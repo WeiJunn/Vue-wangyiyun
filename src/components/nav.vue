@@ -55,7 +55,7 @@
                 fill="#d81e06"
                 p-id="7125"
               ></path></svg></span
-          ><router-link to="/1231">推荐歌单</router-link>
+          ><router-link to="/playListDetail">推荐歌单</router-link>
         </li>
         <li>
           <span
@@ -74,7 +74,7 @@
                 p-id="4716"
                 fill="#d81e06"
               ></path></svg></span
-          ><router-link to="/1231">最新音乐</router-link>
+          ><router-link to="">最新音乐</router-link>
         </li>
         <li>
           <span
@@ -98,7 +98,7 @@
                 fill="#d81e06"
                 p-id="4884"
               ></path></svg></span
-          ><router-link to="/1231">最新mv</router-link>
+          ><router-link to="">最新mv</router-link>
         </li>
       </ul>
     </div>
