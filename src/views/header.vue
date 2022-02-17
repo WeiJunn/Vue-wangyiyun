@@ -73,6 +73,14 @@ export default {
       },
     };
   },
+  methods: {
+    back() {
+      this.$router.go(-1); //返回上一层
+    },
+    goahead() {
+      this.$router.go(+1);
+    },
+  },
 };
 </script>
 

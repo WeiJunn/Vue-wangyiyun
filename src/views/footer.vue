@@ -3,7 +3,7 @@
     <div class="player">
       <div class="music">
         <audio
-          :src="musicUrl"
+          :src="this.$store.state.musicUrl"
           autoplay
           controls
           id="music"

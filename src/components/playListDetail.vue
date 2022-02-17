@@ -44,9 +44,11 @@
               :key="index"
               class="el-table__row"
             >
+              <!-- 序号 -->
               <td>{{ index + 1 }}</td>
+              <!-- 图片div -->
               <td>
-                <div class="img-wrap">
+                <div class="img-wrap" @click="changeUrl(item.id)">
                   <img :src="item.al.picUrl" alt="" />
                 </div>
               </td>
@@ -65,6 +67,7 @@
 
 <script>
 import { getPlayDetail } from "network/playlists.js";
+import { getMusic } from "network/newmusic.js";
 export default {
   data() {
     return {
@@ -74,15 +77,23 @@ export default {
     };
   },
   created() {
-    this.getPlayDetail();
+    this._getPlayDetail();
   },
   methods: {
-    getPlayDetail() {
+    _getPlayDetail() {
       this.id = this.$route.query.q;
       getPlayDetail(this.id).then((res) => {
-        console.log(res);
+        // console.log(res);
         this.PlayDetail = res.data.playlist;
       });
+    },
+    _getMusic(id) {
+      getMusic(id).then((res) => {
+        this.$store.commit("changeUrl", res.data.data[0].url);
+      });
+    },
+    changeUrl(id) {
+      this._getMusic(id);
     },
   },
 };
