@@ -10,7 +10,7 @@ export function getNew() {
 
 // 获取  播放音乐的音频数据
 
-export function getMusic(id) {
+export function getMusicUrl(id) {
   return request({
     url:'song/url',
     params:{

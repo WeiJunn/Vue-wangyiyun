@@ -12,7 +12,7 @@
           <!-- 名字 -->
           <p>{{ PlayDetail.creator.nickname }}</p>
           <!-- 日期 -->
-          <p>{{ PlayDetail.createTime }}</p>
+          <p>{{ PlayDetail.createTime | YearForamt }}</p>
         </div>
         <!-- 播放按钮 -->
         <el-button type="danger">播放全部</el-button>
@@ -48,14 +48,18 @@
               <td>{{ index + 1 }}</td>
               <!-- 图片div -->
               <td>
-                <div class="img-wrap" @click="changeUrl(item.id)">
-                  <img :src="item.al.picUrl" alt="" />
+                <div class="img-wrap">
+                  <img
+                    :src="item.al.picUrl"
+                    @click="changeUrl(item.id)"
+                    alt=""
+                  />
                 </div>
               </td>
               <td>{{ item.name }}</td>
               <td>{{ item.ar[0].name }}</td>
               <td>{{ item.al.name }}</td>
-              <td>{{ item.dt }}</td>
+              <td>{{ item.dt | TimeFormat }}</td>
             </tr>
           </tbody>
         </table>
@@ -67,7 +71,7 @@
 
 <script>
 import { getPlayDetail } from "network/playlists.js";
-import { getMusic } from "network/newmusic.js";
+import { getMusicUrl } from "network/newmusic.js";
 export default {
   data() {
     return {
@@ -87,13 +91,34 @@ export default {
         this.PlayDetail = res.data.playlist;
       });
     },
-    _getMusic(id) {
-      getMusic(id).then((res) => {
+    _getMusicUrl(id) {
+      getMusicUrl(id).then((res) => {
         this.$store.commit("changeUrl", res.data.data[0].url);
       });
     },
     changeUrl(id) {
-      this._getMusic(id);
+      this._getMusicUrl(id);
+    },
+  },
+  filters: {
+    TimeFormat(value) {
+      if (!value) return "";
+      let mins = parseInt(value / 1000 / 60);
+      let seconds = parseInt((value / 1000) % 60);
+      seconds = seconds > 10 ? seconds : "0" + seconds;
+      mins = mins > 10 ? mins : "0" + mins;
+      return `${mins}:${seconds}`;
+    },
+    YearForamt(value) {
+      if (!value) return "";
+      const dt = new Date(value);
+
+      const y = dt.getFullYear();
+      const m = (dt.getMonth() + 1 + "").padStart(2, "0");
+      const d = (dt.getDate() + "").padStart(2, "0");
+
+      // yyyy-mm-dd hh:mm:ss
+      return `${y}-${m}-${d} `;
     },
   },
 };
@@ -145,6 +170,7 @@ export default {
   width: 70px;
   height: 70px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .el-table thead th {
   text-align: left;
