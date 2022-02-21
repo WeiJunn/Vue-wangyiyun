@@ -8,36 +8,37 @@
         :icon="audio.playing ? 'el-icon-video-pause' : 'el-icon-video-play'"
         circle
       ></el-button>
-      <div class="music">
-        <audio
-          @timeupdate="onTimeupdate"
-          @loadedmetadata="onLoadedmetadata"
-          ref="audio"
-          @pause="onPause"
-          @play="onPlay"
-          :src="this.$store.state.musicUrl"
-          autoplay
-          controls
-          id="music"
-          style="outline: none"
-        ></audio>
-        <span style="margin-right: 20px">{{
-          audio.currentTime | realFormatSecond
-        }}</span>
-        <div class="slider">
-          <el-slider
-            v-model="audio.currentTime"
-            :max="audio.maxTime"
-            :show-tooltip="false"
-            @change="changeCurrentTime"
-            @mousedown.native="isChange = true"
-            @mouseup.native="isChange = false"
-          ></el-slider>
-        </div>
-        <span style="margin-left: 20px">{{
-          audio.maxTime | realFormatSecond
-        }}</span>
+    </div>
+    <div class="music">
+      <audio
+        @timeupdate="onTimeupdate"
+        @loadedmetadata="onLoadedmetadata"
+        ref="audio"
+        @pause="onPause"
+        @play="onPlay"
+        :src="this.$store.state.musicUrl"
+        autoplay
+        controls
+        id="music"
+        style="outline: none"
+      ></audio>
+      <span style="margin-right: 20px">{{
+        audio.currentTime | realFormatSecond
+      }}</span>
+      <div class="slider">
+        <el-slider
+          v-model="audio.currentTime"
+          :max="audio.maxTime"
+          :show-tooltip="false"
+          color="#f56c6c"
+          @change="changeCurrentTime"
+          @mousedown.native="isChange = true"
+          @mouseup.native="isChange = false"
+        ></el-slider>
       </div>
+      <span style="margin-left: 20px">{{
+        audio.maxTime | realFormatSecond
+      }}</span>
     </div>
   </div>
 </template>
@@ -120,21 +121,26 @@ export default {
 <style scoped>
 .box {
   width: 100%;
-  height: 60px;
+  height: 65px;
   border-radius: 0 0 10px 10px;
-  background-color: red;
+  background-color: #ec4141;
 }
-.box .player .music audio {
+.box .player {
+  display: flex;
+  justify-content: center;
+}
+.box .music audio {
   display: none;
 }
-.box .player .music {
+.box .music {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  width: 300px;
+  width: 400px;
+  transform: translate(0, -10px);
 }
-.box .player .music .slider {
+.box .music .slider {
   width: 80%;
 }
 </style>

@@ -91,7 +91,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 65px;
   background-color: rgb(236, 65, 65);
   border-radius: 10px 10px 0 0;
 }
