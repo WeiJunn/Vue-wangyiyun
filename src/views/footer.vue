@@ -1,8 +1,14 @@
 <template>
   <div class="box">
     <div class="player">
+      <!-- 监听pause和play事件改变播放的布尔值 -->
+      <el-button
+        @click="startPlayOrPause()"
+        type="danger"
+        :icon="audio.playing ? 'el-icon-video-pause' : 'el-icon-video-play'"
+        circle
+      ></el-button>
       <div class="music">
-        <!-- 监听pause和play事件改变播放的布尔值 -->
         <audio
           @timeupdate="onTimeupdate"
           @loadedmetadata="onLoadedmetadata"
@@ -15,13 +21,22 @@
           id="music"
           style="outline: none"
         ></audio>
-        <el-button @click="startPlayOrPause()">{{
-          audio.playing | transPlayPause
-        }}</el-button>
-        <el-slider v-model="value3" :show-tooltip="false"></el-slider>
-        <span>{{ audio.maxTime | realFormatSecond }}</span>
-        <td></td>
-        <span>{{ audio.currentTime | realFormatSecond }}</span>
+        <span style="margin-right: 20px">{{
+          audio.currentTime | realFormatSecond
+        }}</span>
+        <div class="slider">
+          <el-slider
+            v-model="audio.currentTime"
+            :max="audio.maxTime"
+            :show-tooltip="false"
+            @change="changeCurrentTime"
+            @mousedown.native="isChange = true"
+            @mouseup.native="isChange = false"
+          ></el-slider>
+        </div>
+        <span style="margin-left: 20px">{{
+          audio.maxTime | realFormatSecond
+        }}</span>
       </div>
     </div>
   </div>
@@ -31,6 +46,7 @@
 export default {
   data() {
     return {
+      // 进度条初始进度
       audio: {
         // 该字段是音频是否处于播放状态的属性
         playing: false,
@@ -39,6 +55,7 @@ export default {
         // 音频最大播放时长
         maxTime: 0,
       },
+      isChange: false, //进度条是否被拖动
     };
   },
   methods: {
@@ -60,11 +77,16 @@ export default {
       this.audio.playing = false;
     },
     onLoadedmetadata(e) {
-      console.log(e);
       this.audio.maxTime = parseInt(e.target.duration);
     },
     onTimeupdate(e) {
+      if (this.isChange === true) return;
       this.audio.currentTime = e.target.currentTime;
+    },
+    changeCurrentTime() {
+      if (this.maxTime === 0) return;
+      this.$refs.audio.currentTime = this.audio.currentTime;
+      this.isChange = false;
     },
   },
   filters: {
@@ -106,7 +128,13 @@ export default {
   display: none;
 }
 .box .player .music {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 300px;
+}
+.box .player .music .slider {
+  width: 80%;
 }
 </style>
