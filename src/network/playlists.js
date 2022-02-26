@@ -7,7 +7,7 @@ export function getPlayDetail(id) {
   return request({
     url:'/playlist/detail',
     params:{
-      id
+      id,
     }
   })
 }

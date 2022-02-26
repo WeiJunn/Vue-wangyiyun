@@ -30,6 +30,7 @@ export default {
     // 推荐歌单数据
     getRecommendList() {
       getRecommendList().then((res) => {
+        console.log(res);
         this.RecommendList = res.data.result;
       });
     },

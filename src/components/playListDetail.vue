@@ -87,7 +87,6 @@ export default {
     _getPlayDetail() {
       this.id = this.$route.query.q;
       getPlayDetail(this.id).then((res) => {
-        // console.log(res);
         this.PlayDetail = res.data.playlist;
       });
     },

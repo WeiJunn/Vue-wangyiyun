@@ -34,36 +34,51 @@
         <div class="el-input el-input--small el-input--prefix">
           <input
             type="text"
+            v-model="inputSearch"
             placeholder="搜索"
             class="el-input__inner"
             @keyup.enter="toSearch"
-            v-model="inputVal"
           />
           <span class="el-input__prefix">
             <i class="el-input__icon el-icon-search"></i>
           </span>
         </div>
       </div>
-      <el-popover placement="bottom" width="200" trigger="click">
+      <el-popover
+        placement="bottom"
+        width="200"
+        trigger="click"
+        v-if="!getLoginStatus"
+      >
         <el-button
           icon="el-icon-user-solid"
           slot="reference"
           circle
         ></el-button>
-        <el-form label-width="80px" :model="formLabelAlign">
+        <el-form label-width="80px">
           <el-input v-model="user.phone" clearable></el-input>
           <el-input v-model="user.password" show-password></el-input>
           <div class="loginButton">
-            <el-button type="danger">登录</el-button>
+            <el-button type="danger" @click="_login">登录</el-button>
           </div>
         </el-form>
       </el-popover>
-      <p>点击头像登录</p>
+      <el-popover placement="bottom" width="200" trigger="hover">
+        <img v-if="getLoginStatus" slot="reference" :src="getAvatar" alt="" />
+        <el-form label-width="80px">
+          <div class="loginButton">
+            <el-button type="danger" @click="exitLogin()">退出登录</el-button>
+          </div>
+        </el-form>
+      </el-popover>
+      <p v-if="!getLoginStatus">点击头像登录</p>
+      <p v-if="getLoginStatus">{{ getusername }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { login, logout } from "network/login.js";
 export default {
   data() {
     return {
@@ -71,14 +86,58 @@ export default {
         phone: "13977761012",
         password: "123456",
       },
+      inputSearch: "被动",
     };
   },
+  created() {},
   methods: {
+    _login() {
+      // 登录按钮
+      login(this.user.phone, this.user.password).then((res) => {
+        if (res.data.code != 200) {
+          this.$notify({
+            title: "登录失败",
+            message: "账号或密码错误",
+            type: "warning",
+          });
+        } else {
+          localStorage.setItem("username", res.data.profile.nickname);
+          localStorage.setItem("avatar", res.data.profile.avatarUrl);
+          localStorage.setItem("LoginStatus", true);
+        }
+      });
+    },
     back() {
-      this.$router.go(-1); //返回上一层
+      this.$router.go(-1); //路由返回
     },
     goahead() {
-      this.$router.go(+1);
+      this.$router.go(+1); //路由前进
+    },
+    exitLogin() {
+      // 清楚localStorage的信息
+      localStorage.clear();
+      logout();
+    },
+    toSearch() {
+      if (this.inputSearch === "") {
+        // 提示用户
+        this.$message.warning("请输入内容!");
+      } else {
+        // 携带数据去搜索页面
+        this.$router.push(`/search?name=${this.inputSearch}`);
+        // history.go(0);
+      }
+    },
+  },
+  computed: {
+    getAvatar() {
+      return localStorage.getItem("avatar");
+    },
+    getusername() {
+      return localStorage.getItem("username");
+    },
+    getLoginStatus() {
+      return localStorage.getItem("LoginStatus");
     },
   },
 };
@@ -131,4 +190,9 @@ export default {
   border: 0.1px solid rgb(236, 65, 65);
 }
 /*  */
+.user img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 </style>

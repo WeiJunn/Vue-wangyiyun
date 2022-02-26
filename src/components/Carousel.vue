@@ -15,7 +15,7 @@ export default {
   },
   props: {
     banner: {
-      type: Object, //传入类型
+      type: Array, //传入类型
       // default: "默认值",
     },
   },

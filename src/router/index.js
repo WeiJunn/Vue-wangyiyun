@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 import discovery from "components/discover.vue"
-import playListDetail from "components/playListDetail.vue";
+import search from "components/search.vue"
 const router = new VueRouter({
   routes:[
     {
@@ -15,8 +15,8 @@ const router = new VueRouter({
     component: discovery,
     },
     {
-    path: '/playListDetail',
-    component: playListDetail,
+    path: '/search',
+    component: search,
     },
    ],
 })

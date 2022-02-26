@@ -43,7 +43,7 @@ export default {
   },
   props: {
     RecommendList: {
-      type: Object,
+      type: Array,
       // default
     },
   },

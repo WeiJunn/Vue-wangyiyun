@@ -31,7 +31,7 @@
               ></path>
             </svg>
           </span>
-          <router-link to="/discovery">发现音乐</router-link>
+          <router-link to="/">发现音乐</router-link>
         </li>
         <li>
           <span
@@ -55,7 +55,7 @@
                 fill="#d81e06"
                 p-id="7125"
               ></path></svg></span
-          ><router-link to="/playListDetail">推荐歌单</router-link>
+          ><router-link to="/">推荐歌单</router-link>
         </li>
         <li>
           <span
